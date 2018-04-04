@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  pdf-engine:
+    restart: always
+    container_name: pdf-engine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pdf-engine
+    volumes:
+      - type: bind
+        source: .
+        target: /pdf
+    ports:
+      - 8200:8200
+    environment:
+      - DEBUG=True
+      - ENV=local
+      - ALLOWED_HOSTS=*
+      - API_LOGGING=True
+    ports:
+      - 8200:8200

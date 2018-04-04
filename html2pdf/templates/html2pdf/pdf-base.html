@@ -1,0 +1,12 @@
+{% load static %}{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ filename }}</title>
+    {% include 'html2pdf/fonts.html' %}
+    <link href="{% static 'html2pdf/css/pdf-style.css' %}" rel="stylesheet" />
+    <style>{{ style_overwrites|safe }}</style>
+</head>
+{% block content %}{% endblock %}
+</html>

@@ -1,0 +1,218 @@
+{% extends 'html2pdf/pdf-base.html' %}
+{% load static %}{% load i18n %}
+{% block content %}
+<body>
+    <div class="footer-section f10">{{ footer.text|safe }}</div>
+    <div class="header-section">
+        <img src="{{ header.image }}" class="logo" />
+    </div>
+<div class="exterior-page">
+<section class="page">
+
+    <div class="sender-address f2">{{ agency_address_header }}</div>
+    <div class="company f3">
+        <div>{{ customer.company }}</div>
+        <div>{{ customer.contact_person_title }} {{ customer.contact_person_name }}</div>
+        <div>{{ customer.address }}</div>
+        <div>{{ customer.country_code }}-{{ customer.postal_code }} {{ customer.city }}</div>
+    </div>
+    <div class="references">
+        <table class="f4">
+      <tr>
+        <td width="40mm">{% trans 'Invoice date' %}</td>
+        <td width="40mm">{{ offer.offer_date|date:"d.m.Y" }}</td>
+      </tr>
+      <tr>
+        <td width="40mm">{% trans 'Due date' %}</td>
+        <td width="40mm">{{ offer.valid_until_date|date:"d.m.Y" }}</td>
+      </tr>
+      <tr>
+        <td width="40mm">{% trans 'Our reference' %}</td>
+        <td width="40mm">{{ offer.manager }}</td>
+      </tr>
+    </table>
+    </div>
+
+    <table class="cell">
+        <tr>
+            <td>
+                <div class="project-number f5">
+                     {{ public_id_text }} {{ public_id }}
+                </div>
+                <div>
+                    <span class="project-title f6">{{ title }}</span>
+                </div>
+                <div class="project-subtitle f13">{{ customer_refference }}</div>
+                <div class="project-subtitle f1">{{ description|safe }}</div>
+                    <!-- END OF PROJECT DESCRIPTION -->
+            </td>
+        </tr>
+    </table>
+        {% if services %}
+        <table class="services-list">
+        {% for service in services %}
+            <tr>
+                <td colspan="3">
+                    <table class="cell">
+                    {% if forloop.first %}
+                        <tr>
+                            <td colspan="3"><div class="subtitle f8">{{ services_title }}</div></td>
+                        </tr>
+                    {% endif %}
+                        <tr>
+                            <td class="content">
+                                <div class="services-title">
+                                    <span class="f7">{{ service.title }} </span>
+                                <span class="f14">
+                                    {% if service.accepted %}
+                                        ({{ service.accepted.accepted_text }}
+                                        {{ service.accepted.accepted_date|date:"d.m.Y" }})
+                                    {% elif service.is_optional %}
+                                        ({{ service.is_optional_text }})
+                                    {% elif service.is_external_cost %}
+                                        ({{ service.is_external_cost_text }})
+                                    {% endif %}
+                                </span>
+                                </div>
+                                <div class="f1">
+                                    {{ service.description|safe }}
+                                </div>
+                            {% if service.steps %}
+                                <div class="f9">{{ service.steps }}</div>
+                            {% endif %}
+
+                            </td>
+                            <td class="bullet">
+                            {% if service.is_optional or service.is_external_cost %}
+                                <span class="services-bullet">
+                                    {% if service.total_amount %}{{ service.total_amount|floatformat:"2" }}{% endif %}
+                                </span>
+                            {% endif %}
+                            </td>
+                            <td class="bullet">
+                                {% if not service.is_optional and not service.is_external_cost %}{% if service.total_amount %}
+                                <div class="services-bullet">{{ service.total_amount|floatformat:"2" }}</div>
+                                {% endif %}{% if service.discount %}
+                                <div class="f14 discount">{% trans 'Discount' %} {{ service.discount|floatformat:"2" }}</div>
+                                {% endif %}{% endif %}
+                            </td>
+                        </tr>
+                    {% if service.has_subtotal %}
+                        <tr>
+                            <td colspan="2" class="content">
+                                <div class="f11 subtotal">
+                                    {{ service.has_subtotal_text }}
+                                </div>
+                            </td>
+                            <td class="bullet">
+                                <div class="f11 subtotal">
+                                    {{ service.has_subtotal|floatformat:"2" }}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% if forloop.last %}
+                        <tr>
+                            <td colspan="3">
+                                <div class="sumary-top-line f16"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="f13 content">{{ total_optional_text }}</td>
+                            <td class="f13 bullet">{{ total_optional|floatformat:"2" }}</td>
+                            <td class="bullet"></td>
+                        </tr>
+                        <tr>
+                            <td class="f13 content">{{ total_external_text }}</td>
+                            <td class="f13 bullet">{{ total_external|floatformat:"2" }}</td>
+                            <td class="bullet"></td>
+                        </tr>
+                        <tr>
+                            <td class="f13 content tax">{{ total_tax_text }}</td>
+                            <td class="f13 bullet tax">
+                                {% if not is_tax_included %}
+                                    {{ total_tax|floatformat:"2" }}
+                                {% endif %}
+                            </td>
+                            <td class="f13 bullet tax">
+                                {% if is_tax_included %}
+                                    {{ total_tax|floatformat:"2" }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="content total f15">{{ total_offer_text }}</td>
+                            <td class="bullet total"></td>
+                            <td class="bullet total f15">{{ total_offer|floatformat:"2" }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <div class="f13">
+                                    {{ discount_explanation }}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </table>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <div class="summary">
+            <table>
+                <tr>
+                    <td colspan="3">
+                        <div class="summary">
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="sumary-top-line f16"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="f13 content">{{ total_optional_text }}</td>
+                                    <td class="f13 bullet">{{ total_optional|floatformat:"2" }}</td>
+                                    <td class="bullet"></td>
+                                </tr>
+                                <tr>
+                                    <td class="f13 content">{{ total_external_text }}</td>
+                                    <td class="f13 bullet">{{ total_external|floatformat:"2" }}</td>
+                                    <td class="bullet"></td>
+                                </tr>
+                                <tr>
+                                    <td class="f13 content tax">{{ total_tax_text }}</td>
+                                    <td class="f13 bullet tax">
+                                        {% if not is_tax_included %}
+                                            {{ total_tax|floatformat:"2" }}
+                                        {% endif %}
+                                    </td>
+                                    <td class="f13 bullet tax">
+                                        {% if is_tax_included %}
+                                            {{ total_tax|floatformat:"2" }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="content total f15">{{ total_offer_text }}</td>
+                                    <td class="bullet total"></td>
+                                    <td class="bullet total f15">{{ total_offer|floatformat:"2" }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="f13">
+                                            {{ discount_explanation }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
+</section>
+</div>
+</body>
+{% endblock %}

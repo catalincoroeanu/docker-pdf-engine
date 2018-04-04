@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h4>
+<a href="{% url 'PDFTester' %}"> PDFTester</a> => Only for Test Purpose - Default: Document
+</h4>
+
+<h4>
+<a href="/pdf/?lang=de-ch&doc_type=invoice&font=Proxima&filename=My%20Lovely%20PDF"> Complex PDFTester</a> => /?lang=de-ch&doc_type=invoice&font=Proxima&filename=My%20Lovely%20PDF
+</h4>
+    <div>
+        <pre>/?lang=de-ch&doc_type=project&font=Proxima&filename=My%20Lovely%20PDF</pre>
+
+        <strong>lang</strong> = [en, de, de-ch] #default=en<br>
+        <strong>doc_type</strong> = [invoice,(...anything)] #default=invoice<br>
+        <strong>font</strong> = [Proxima, Lato, Roboto, Saira_Semi_Condensed] # default=Proxima<br>
+        <strong>filename</strong> = Sample Name Document #default="Sample Title"<br>
+
+    </div>
+<br>
+<h4>
+    <a href="{% url 'HTMLTester' %}"> HTML Version</a> => Only to speed up development for the HTML with Gulp and BrowserSync
+</h4>
+</body>
+</html>

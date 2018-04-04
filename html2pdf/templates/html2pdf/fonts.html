@@ -1,0 +1,34 @@
+{% load static %}{% load i18n %}
+<style>
+    {% if fonts == 'Proxima' %}
+    @font-face {
+      font-family: "Proxima";
+      font-style: normal;
+      font-weight: normal;
+      src: url("{% static 'html2pdf/fonts/proxima/proximanova-regular.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-light.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-bold.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-lightit.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-thinit.otf' %}") format("otf");
+    }{% elif fonts == 'Lato' %}
+    @font-face {
+      font-family: "Lato";
+      font-style: normal;
+      font-weight: normal;
+      src: url("{% static 'html2pdf/fonts/Lato/Lato-Regular.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Lato/Lato-Light.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Lato/Lato-Bold.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Lato/Lato-LightItalic.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Lato/Lato-HairlineItalic.ttf' %}") format("ttf");
+    }{% elif fonts == 'Roboto' %}
+    @font-face {
+      font-family: "Roboto";
+      font-style: normal;
+      font-weight: normal;
+      src: url("{% static 'html2pdf/fonts/Roboto/Roboto-Regular.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Roboto/Roboto-Light.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Roboto/Roboto-Bold.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Roboto/Roboto-LightItalic.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Roboto/Roboto-ThinItalic.ttf' %}") format("ttf");
+    }{% elif fonts == 'Saira_Semi_Condensed' %}
+    @font-face {
+      font-family: "Saira Semi Condensed";
+      font-style: normal;
+      font-weight: normal;
+      src: url("{% static 'html2pdf/fonts/Saira_Semi_Condensed/SairaSemiCondensed-Regular.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Saira_Semi_Condensed/SairaSemiCondensed-Light.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Saira_Semi_Condensed/SairaSemiCondensed-Bold.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Saira_Semi_Condensed/SairaSemiCondensed-Light.ttf' %}") format("ttf"), url("{% static 'html2pdf/fonts/Saira_Semi_Condensed/SairaSemiCondensed-Thin.ttf' %}") format("ttf");
+    }{% else %}
+    @font-face {
+      font-family: "Proxima";
+      font-style: normal;
+      font-weight: normal;
+      src: url("{% static 'html2pdf/fonts/proxima/proximanova-regular.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-light.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-bold.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-lightit.otf' %}") format("otf"), url("{% static 'html2pdf/fonts/proxima/proximanova-thinit.otf' %}") format("otf");
+    }{% endif %}
+</style>
